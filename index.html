@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Expert private | Coming Soon</title>
+  <meta name="description" content="Expert private is building something amazing. A new destination for exclusive insights. Stay tuned for our official launch.">
+  <meta name="robots" content="index, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-deep: #0a0a1f;
+      --bg-mid: #1a0a2e;
+      --accent-purple: #a855f7;
+      --accent-blue: #6366f1;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.5);
+    }
+
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--bg-deep) 0%, var(--bg-mid) 50%, var(--bg-deep) 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    #loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: linear-gradient(135deg, var(--bg-deep) 0%, var(--bg-mid) 100%);
+      display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 24px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .loader-logo {
+      font-size: 28px; font-weight: 700; letter-spacing: 2px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent-purple) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: loaderPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes loaderPulse { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+
+    .loader-bar { width: 140px; height: 3px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
+    .loader-bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); border-radius: 3px; animation: loaderProgress 1.2s ease-out forwards; }
+    @keyframes loaderProgress { 0% { width: 0%; } 100% { width: 100%; } }
+
+    #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+    .nebula { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; opacity: 0.4; }
+    .nebula-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%); top: -10%; right: -10%; animation: nebulaFloat 20s ease-in-out infinite; }
+    .nebula-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%); bottom: -5%; left: -5%; animation: nebulaFloat 25s ease-in-out infinite reverse; }
+    .nebula-3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(34, 211, 238, 0.15) 0%, transparent 70%); top: 40%; left: 30%; animation: nebulaFloat 18s ease-in-out infinite; animation-delay: -5s; }
+    @keyframes nebulaFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -20px) scale(1.05); } 66% { transform: translate(-20px, 15px) scale(0.98); } }
+
+    .particles-container { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+    .particle { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.6); animation: particleFloat linear infinite; }
+    @keyframes particleFloat { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
+
+    .main-content { position: relative; z-index: 2; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 20px; }
+
+    .hero { text-align: center; max-width: 800px; margin-bottom: 48px; }
+
+    .tagline { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 100px; font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-purple); margin-bottom: 24px; backdrop-filter: blur(10px); }
+    .tagline-dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; animation: dotPulse 2s ease-in-out infinite; }
+    @keyframes dotPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+
+    .logo { font-size: clamp(32px, 6vw, 56px); font-weight: 800; letter-spacing: 4px; margin-bottom: 16px; background: linear-gradient(135deg, #ffffff 0%, #e0e0ff 50%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: logoGlow 3s ease-in-out infinite; text-transform: uppercase; }
+    @keyframes logoGlow { 0%, 100% { filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.3)); transform: scale(1); } 50% { filter: drop-shadow(0 0 40px rgba(168, 85, 247, 0.5)); transform: scale(1.02); } }
+
+    .hero-title { font-size: clamp(28px, 5vw, 48px); font-weight: 700; line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.5px; }
+    .hero-subtitle { font-size: clamp(14px, 2.2vw, 18px); font-weight: 400; color: var(--text-secondary); line-height: 1.7; max-width: 600px; margin: 0 auto; }
+
+    .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 32px; transition: all 0.4s ease; }
+    .glass-card:hover { border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
+
+    .countdown-section { width: 100%; max-width: 640px; margin-bottom: 32px; }
+    .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .countdown-item { text-align: center; padding: 20px 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; transition: all 0.3s ease; }
+    .countdown-item:hover { background: rgba(255, 255, 255, 0.06); border-color: rgba(168, 85, 247, 0.3); transform: translateY(-2px); }
+    .countdown-value { font-size: clamp(28px, 4vw, 40px); font-weight: 700; line-height: 1; background: linear-gradient(135deg, #fff 0%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-variant-numeric: tabular-nums; min-height: 40px; display: flex; align-items: center; justify-content: center; }
+    .countdown-label { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 8px; }
+    .countdown-end-label { text-align: center; font-size: 14px; color: var(--text-muted); margin-top: 16px; }
+
+    .email-section { width: 100%; max-width: 480px; margin-bottom: 40px; }
+    .email-form { display: flex; gap: 12px; flex-wrap: wrap; }
+    .email-input-wrapper { flex: 1; min-width: 200px; position: relative; }
+    .email-input { width: 100%; padding: 14px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: var(--text-primary); font-family: inherit; font-size: 15px; font-weight: 400; outline: none; transition: all 0.3s ease; }
+    .email-input::placeholder { color: var(--text-muted); }
+    .email-input:focus { border-color: var(--accent-purple); box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15); background: rgba(255, 255, 255, 0.08); }
+    .email-input.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15); }
+    .email-btn { padding: 14px 28px; background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%); border: none; border-radius: 12px; color: #fff; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; position: relative; overflow: hidden; }
+    .email-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s ease; }
+    .email-btn:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(168, 85, 247, 0.3), 0 0 80px rgba(168, 85, 247, 0.15); }
+    .email-btn:hover::before { left: 100%; }
+    .email-btn:active { transform: translateY(0); }
+    .error-msg { font-size: 12px; color: #ef4444; margin-top: 6px; padding-left: 4px; opacity: 0; transform: translateY(-4px); transition: all 0.3s ease; }
+    .error-msg.show { opacity: 1; transform: translateY(0); }
+
+    .social-section { display: flex; gap: 16px; margin-bottom: 48px; }
+    .social-link { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: var(--text-secondary); transition: all 0.3s ease; text-decoration: none; }
+    .social-link:hover { border-color: var(--accent-purple); color: var(--text-primary); transform: translateY(-3px); box-shadow: 0 0 40px rgba(168, 85, 247, 0.3), 0 0 80px rgba(168, 85, 247, 0.15); }
+    .social-link svg { width: 20px; height: 20px; fill: currentColor; }
+
+    .footer { text-align: center; padding: 24px 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); width: 100%; max-width: 800px; }
+    .footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 16px; }
+    .footer-link { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); text-decoration: none; font-size: 14px; transition: color 0.3s ease; }
+    .footer-link:hover { color: var(--accent-purple); }
+    .footer-link svg { width: 16px; height: 16px; fill: currentColor; }
+    .copyright { font-size: 13px; color: var(--text-muted); }
+
+    .toast-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; flex-direction: column; gap: 8px; align-items: center; }
+    .toast { padding: 14px 24px; background: rgba(30, 30, 50, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 12px; color: #fff; font-size: 14px; font-weight: 500; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); transform: translateY(20px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 10px; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-icon { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 480px) {
+      .main-content { padding: 32px 16px; }
+      .glass-card { padding: 24px 16px; border-radius: 20px; }
+      .countdown-grid { gap: 8px; }
+      .countdown-item { padding: 16px 4px; border-radius: 12px; }
+      .countdown-value { font-size: 24px; }
+      .countdown-label { font-size: 9px; letter-spacing: 1px; }
+      .email-form { flex-direction: column; }
+      .email-btn { width: 100%; }
+      .social-section { gap: 12px; }
+      .social-link { width: 44px; height: 44px; border-radius: 12px; }
+      .footer-links { gap: 16px; }
+    }
+
+    @media (min-width: 481px) and (max-width: 767px) {
+      .countdown-grid { gap: 12px; }
+      .email-form { flex-wrap: nowrap; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader">
+    <div class="loader-logo">Expert private</div>
+    <div class="loader-bar"><div class="loader-bar-inner"></div></div>
+  </div>
+
+  <canvas id="starfield"></canvas>
+
+  <div class="nebula nebula-1"></div>
+  <div class="nebula nebula-2"></div>
+  <div class="nebula nebula-3"></div>
+
+  <div class="particles-container" id="particles"></div>
+
+  <main class="main-content">
+    <section class="hero reveal">
+      <div class="tagline"><span class="tagline-dot"></span><span>Coming Soon</span></div>
+      <h1 class="logo">Expert private</h1>
+      <h2 class="hero-title">Something Big is Coming.</h2>
+      <p class="hero-subtitle">Expert private is building the future of knowledge, insights, and digital innovation.</p>
+    </section>
+
+    <section class="countdown-section reveal">
+      <div class="glass-card">
+        <div class="countdown-grid">
+          <div class="countdown-item"><div class="countdown-value" id="days">00</div><div class="countdown-label">Days</div></div>
+          <div class="countdown-item"><div class="countdown-value" id="hours">00</div><div class="countdown-label">Hours</div></div>
+          <div class="countdown-item"><div class="countdown-value" id="minutes">00</div><div class="countdown-label">Minutes</div></div>
+          <div class="countdown-item"><div class="countdown-value" id="seconds">00</div><div class="countdown-label">Seconds</div></div>
+        </div>
+        <p class="countdown-end-label">Launching July 31, 2026</p>
+      </div>
+    </section>
+
+    <section class="email-section reveal">
+      <div class="glass-card">
+        <form class="email-form" id="emailForm" novalidate>
+          <div class="email-input-wrapper">
+            <input type="email" class="email-input" id="emailInput" placeholder="Enter your email" autocomplete="email" required>
+            <div class="error-msg" id="errorMsg">Please enter a valid email address</div>
+          </div>
+          <button type="submit" class="email-btn">Notify Me</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="social-section reveal">
+      <a href="https://instagram.com/expert.private" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      </a>
+      <a href="https://t.me/@expert_private" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Telegram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0011.944 0zm5.508 7.578l-1.814 8.563a.918.918 0 01-1.356.521l-3.882-2.52-1.863 1.902a.663.663 0 01-.663.163l.268-3.734 7.173-6.472a.398.398 0 00-.095-.067l-.009.008-.074-.037a.379.379 0 00-.297.019l-9.362 5.865-4.037-1.278a.773.773 0 01-.077-1.393l16.248-6.267a.634.634 0 01.883.565z"/></svg>
+      </a>
+    </section>
+
+    <footer class="footer reveal">
+      <div class="footer-links">
+        <a href="mailto:aman@gmail.com" class="footer-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          aman@gmail.com
+        </a>
+        <a href="https://t.me/@expert_private" target="_blank" rel="noopener noreferrer" class="footer-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0011.944 0zm5.508 7.578l-1.814 8.563a.918.918 0 01-1.356.521l-3.882-2.52-1.863 1.902a.663.663 0 01-.663.163l.268-3.734 7.173-6.472a.398.398 0 00-.095-.067l-.009.008-.074-.037a.379.379 0 00-.297.019l-9.362 5.865-4.037-1.278a.773.773 0 01-.077-1.393l16.248-6.267a.634.634 0 01.883.565z"/></svg>
+          @expert_private
+        </a>
+      </div>
+      <p class="copyright">&copy; 2026 Expert private. All Rights Reserved.</p>
+    </footer>
+  </main>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      window.addEventListener('load', function() {
+        setTimeout(function() { document.getElementById('loader').classList.add('hidden'); }, 1400);
+      });
+
+      var canvas = document.getElementById('starfield');
+      var ctx = canvas.getContext('2d');
+      var stars = [];
+      var STAR_COUNT = 200;
+      var width, height;
+
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * window.devicePixelRatio;
+        canvas.height = height * window.devicePixelRatio;
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      }
+
+      function initStars() {
+        stars = [];
+        for (var i = 0; i < STAR_COUNT; i++) {
+          stars.push({
+            x: Math.random() * width, y: Math.random() * height,
+            radius: Math.random() * 1.5 + 0.3, opacity: Math.random(),
+            speed: Math.random() * 0.3 + 0.05,
+            twinkleSpeed: Math.random() * 0.02 + 0.005, twinkleDir: 1
+          });
+        }
+      }
+
+      function drawStars() {
+        ctx.clearRect(0, 0, width, height);
+        for (var i = 0; i < stars.length; i++) {
+          var s = stars[i];
+          s.opacity += s.twinkleSpeed * s.twinkleDir;
+          if (s.opacity >= 1 || s.opacity <= 0.2) s.twinkleDir *= -1;
+          s.y -= s.speed;
+          if (s.y < -5) { s.y = height + 5; s.x = Math.random() * width; }
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255, 255, 255, ' + s.opacity + ')';
+          ctx.fill();
+          if (s.radius > 1) {
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.radius * 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, ' + (s.opacity * 0.1) + ')';
+            ctx.fill();
+          }
+        }
+        requestAnimationFrame(drawStars);
+      }
+
+      resizeCanvas();
+      initStars();
+      drawStars();
+      window.addEventListener('resize', function() { resizeCanvas(); initStars(); });
+
+      var particlesContainer = document.getElementById('particles');
+      for (var i = 0; i < 30; i++) {
+        var particle = document.createElement('div');
+        particle.className = 'particle';
+        var size = Math.random() * 3 + 1;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        particle.style.animationDelay = (Math.random() * 10) + 's';
+        particle.style.opacity = Math.random() * 0.5 + 0.2;
+        particlesContainer.appendChild(particle);
+      }
+
+      var endDate = new Date('2026-07-31T00:00:00');
+      var daysEl = document.getElementById('days');
+      var hoursEl = document.getElementById('hours');
+      var minutesEl = document.getElementById('minutes');
+      var secondsEl = document.getElementById('seconds');
+
+      function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+      function updateCountdown() {
+        var now = new Date();
+        var diff = endDate - now;
+        if (diff <= 0) {
+          daysEl.textContent = '00'; hoursEl.textContent = '00';
+          minutesEl.textContent = '00'; secondsEl.textContent = '00';
+          return;
+        }
+        var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        daysEl.textContent = pad(days);
+        hoursEl.textContent = pad(hours);
+        minutesEl.textContent = pad(minutes);
+        secondsEl.textContent = pad(seconds);
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      var emailForm = document.getElementById('emailForm');
+      var emailInput = document.getElementById('emailInput');
+      var errorMsg = document.getElementById('errorMsg');
+
+      function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+
+      emailForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = emailInput.value.trim();
+        if (!email || !isValidEmail(email)) {
+          emailInput.classList.add('error');
+          errorMsg.classList.add('show');
+          emailInput.focus();
+          return;
+        }
+        emailInput.classList.remove('error');
+        errorMsg.classList.remove('show');
+        try {
+          var emails = JSON.parse(localStorage.getItem('expert_private_emails') || '[]');
+          if (!Array.isArray(emails)) emails = [];
+          emails.push({ email: email, date: new Date().toISOString() });
+          localStorage.setItem('expert_private_emails', JSON.stringify(emails));
+        } catch (err) { console.warn('localStorage unavailable:', err); }
+        emailInput.value = '';
+        showToast("We'll notify you on launch!");
+      });
+
+      emailInput.addEventListener('input', function() {
+        emailInput.classList.remove('error');
+        errorMsg.classList.remove('show');
+      });
+
+      window.showToast = function(message) {
+        var container = document.getElementById('toastContainer');
+        var toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' + message;
+        container.appendChild(toast);
+        requestAnimationFrame(function() { toast.classList.add('show'); });
+        setTimeout(function() {
+          toast.classList.remove('show');
+          setTimeout(function() { toast.remove(); }, 400);
+        }, 3000);
+      };
+
+      var revealElements = document.querySelectorAll('.reveal');
+      function checkReveal() {
+        var windowHeight = window.innerHeight;
+        for (var i = 0; i < revealElements.length; i++) {
+          var rect = revealElements[i].getBoundingClientRect();
+          if (rect.top < windowHeight - 60) revealElements[i].classList.add('visible');
+        }
+      }
+      checkReveal();
+      window.addEventListener('scroll', checkReveal);
+      window.addEventListener('resize', checkReveal);
+    })();
+  </script>
+</body>
+</html>
